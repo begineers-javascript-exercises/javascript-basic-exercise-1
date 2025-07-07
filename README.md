@@ -283,3 +283,136 @@ updateUserProfile({ name: "Alice Johnson" });
 - **File 2**: Functions and Arrow Functions
 - **File 3**: Control Structures and Loops  
 - **File 4**: Arrays and Objects Deep Dive
+
+# Exercise 1.1: Core Declarations & Primitive Data Types
+
+**Objective:** Master the declaration of variables using modern best practices (`let`, `const`) and understand the fundamental "primitive" data types that form the building blocks of all JavaScript programs.
+
+## Part 1: Declaring Variables
+
+In JavaScript, a variable is a named container for a value. How you create this container is crucial.
+
+### `const` (Constant)
+Use `const` when the variable's value **will not be reassigned**. This should be your default choice as it prevents a common class of bugs.
+
+*   **Example 1: Application Configuration**
+    A setting like a server URL or a company name is fixed throughout the application's life.
+
+    ```javascript
+    const API_BASE_URL = 'https://api.my-app.com/v3';
+    const COMPANY_NAME = 'Tech Solutions Inc.';
+    console.log(`Connecting to ${COMPANY_NAME} server at ${API_BASE_URL}...`);
+    // Trying to change it: API_BASE_URL = 'http://localhost'; // This will cause a TypeError.
+    ```
+
+*   **Example 2: Mathematical Constant**
+    A value like the gravitational constant doesn't change.
+
+    ```javascript
+    const GRAVITATIONAL_CONSTANT = 9.8; // m/s^2
+    console.log('The pull of gravity is:', GRAVITATIONAL_CONSTANT);
+    ```
+
+### `let` (Re-assignable)
+Use `let` only when you know the variable's value **will need to change**.
+
+*   **Example 1: A User's Shopping Cart**
+    The contents and total of a shopping cart change as a user adds and removes items.
+
+    ```javascript
+    let cartItemCount = 0;
+    console.log(`You have ${cartItemCount} items in your cart.`); // Output: 0
+
+    cartItemCount = 2; // User adds two items.
+    console.log(`You have ${cartItemCount} items in your cart.`); // Output: 2
+    ```
+
+*   **Example 2: Tracking Game State**
+    The player's score and current level change throughout a game.
+    ```javascript
+    let playerLevel = 1;
+    let playerScore = 0;
+
+    playerLevel = 2;
+    playerScore = 1500;
+    console.log(`Player reached Level ${playerLevel} with a score of ${playerScore}.`);
+    ```
+
+## Part 2: Primitive Data Types
+
+**1. String:** Textual data, enclosed in quotes. Backticks (`` `...` ``) are the most powerful as they allow for embedded variables (interpolation).
+
+```javascript
+const userName = "Brenda";
+const orderStatus = 'Processing';
+const confirmationMessage = `Hello ${userName}, your order status is: ${orderStatus}.`;
+console.log(confirmationMessage);
+
+
+### 2. Number: Represents all numbers, including integers and decimals.
+> Try to create these variables.
+
+```
+const price = 19.99;
+const quantity = 3;
+const taxRate = 0.05; // 5%
+const total = (price * quantity) * (1 + taxRate);
+console.log('Total cost:', total);
+```
+
+### 3. Boolean: Represents true or false. Essential for making decisions in code.
+
+```
+const hasAdminRights = false;
+const isUserLoggedIn = true;
+if (isUserLoggedIn) {
+  console.log('Welcome back!');
+}
+```
+
+## Practice Exercise: Online Store Product Page
+### Task
+
+> You are coding the backend logic for a product page. You need to declare variables to hold product information and calculate the initial price.
+
+- Declare a constant for the product's name ('Wireless Headphones').
+- Declare a re-assignable variable for the quantity the user wants to buy, initialized to 1.
+- Declare a constant for the price per unit (149.99).
+- Declare a boolean constant isProductInStock and set it to true.
+- Declare a constant for the product's unique ID ('abc-123').
+- Calculate the totalPrice and store it in a constant.
+- Log a descriptive message using a template string: "User wants to buy [quantity] of [productName] for a total of $[totalPrice].".
+- Use the typeof operator to log the type of the product name, quantity, and in-stock status.
+
+## Solution
+
+```
+// 1. Declare product ID
+const productID = 'abc-123';
+
+// 2. Declare product name
+const productName = 'Wireless Headphones';
+
+// 3. Declare a re-assignable quantity
+let quantity = 1;
+
+// 4. Declare price per unit
+const pricePerUnit = 149.99;
+
+// 5. Declare stock status
+const isProductInStock = true;
+
+// 6. Calculate total price
+const totalPrice = quantity * pricePerUnit;
+
+// 7. Log the descriptive message
+console.log(`User wants to buy ${quantity} of ${productName} for a total of $${totalPrice}.`);
+// Expected Output: User wants to buy 1 of Wireless Headphones for a total of $149.99.
+
+// 8. Log the data types
+console.log('Type of productName:', typeof productName);       // Expected Output: string
+console.log('Type of quantity:', typeof quantity);             // Expected Output: number
+console.log('Type of isProductInStock:', typeof isProductInStock); // Expected Output: boolean
+```
+
+### **File 1.2: Naming Conventions & Deep Dive on String/Number Methods**

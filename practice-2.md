@@ -416,3 +416,144 @@ console.log("Form validation:", validationResult);
 - **[← File 1](exercise1_variables.md)**: Variables and Data Types
 - **[File 3 →](exercise1_control.md)**: Control Structures and Loops
 - **[File 4 →](exercise1_arrays_objects.md)**: Arrays and Objects Deep Dive
+
+---
+
+### **File 2: Naming Conventions & Deep Dive on String/Number Methods**
+
+```markdown
+# Exercise 1.2: Naming & Working with Strings and Numbers
+
+**Objective:** Learn professional naming conventions and explore the powerful built-in methods for `String` and `Number` types, which are used daily in professional development.
+
+## Part 1: Professional Naming Conventions
+
+How you name your variables matters. Good names make code readable and maintainable.
+
+*   **camelCase:** The standard for variables and functions in JavaScript. Start with a lowercase letter, and capitalize the first letter of each subsequent word.
+    *   **Good:** `let userFirstName`, `const maxRetries`, `function calculateTotal()`
+    *   **Bad:** `let user_first_name`, `const maxretries`, `function Calculatetotal()`
+
+*   **PascalCase:** Used for class names and components. Capitalize the first letter of every word.
+    *   **Good:** `class UserSession { ... }`, `class DatabaseManager { ... }`
+
+*   **UPPER_SNAKE_CASE:** Used for "hard-coded" constant values that are treated as global configuration.
+    *   **Good:** `const API_KEY = '...';`, `const SECONDS_IN_A_DAY = 86400;`
+
+## Part 2: String Properties and Methods
+
+Strings come with built-in tools (methods) to manipulate them.
+
+*   **`.length` (Property)**: Returns the number of characters in the string.
+
+    ```javascript
+    const userComment = 'This is great!';
+    console.log('Comment length:', userComment.length); // Output: 14
+    ```
+
+*   **`.toUpperCase()` & `.toLowerCase()`**: Return a new string in all upper or lower case.
+
+    ```javascript
+    const userInput = 'New York';
+    const dbEntry = userInput.toUpperCase(); // Storing as 'NEW YORK' for consistency
+    console.log(dbEntry); // Output: NEW YORK
+    ```
+
+*   **`.slice(startIndex, endIndex)`**: Extracts a section of a string and returns it as a new string. `endIndex` is optional.
+
+    ```javascript
+    const orderId = 'ORD-2025-4817-USER';
+    const userPart = orderId.slice(15); // Extracts from index 15 to the end
+    console.log('User part:', userPart); // Output: USER
+
+    const yearPart = orderId.slice(4, 8); // Extracts from index 4 up to (but not including) 8
+    console.log('Year part:', yearPart); // Output: 2025
+    ```
+
+*   **`.replace(searchValue, newValue)`**: Finds the first match of `searchValue` and replaces it.
+
+    ```javascript
+    let statusMessage = "Your order is pending.";
+    let updatedMessage = statusMessage.replace('pending', 'shipped');
+    console.log(updatedMessage); // Output: Your order is shipped.
+    ```
+
+## Part 3: Number Methods and the `Math` Object
+
+Numbers also have useful methods.
+
+*   **`.toFixed(decimalPlaces)`**: Formats a number to a specific number of decimal places and returns it as a **string**. Essential for displaying currency.
+
+    ```javascript
+    const price = 49.95678;
+    const displayPrice = price.toFixed(2); // Rounds to 2 decimal places
+    console.log('Price to display: $' + displayPrice); // Output: $49.96
+    ```
+
+*   **`parseInt(string)` & `parseFloat(string)`**: Global functions to convert a string into an integer or a floating-point number.
+
+    ```javascript
+    const cssWidth = '250.5px';
+    const widthAsNumber = parseFloat(cssWidth); // Extracts the number 250.5
+    console.log('Numeric width:', widthAsNumber); // Output: 250.5
+    ```
+
+*   **The `Math` Object**: A built-in object with properties and methods for mathematical operations.
+    *   **`Math.round(n)`**: Standard rounding to the nearest integer.
+    *   **`Math.ceil(n)`**: Rounds up to the nearest integer.
+    *   **`Math.floor(n)`**: Rounds down to the nearest integer.
+    *   **`Math.random()`**: Returns a random number between 0 (inclusive) and 1 (exclusive).
+
+    ```javascript
+    // Example: Calculate how many boxes are needed.
+    const items = 21;
+    const itemsPerBox = 5;
+    const boxesNeeded = Math.ceil(items / itemsPerBox); // 21/5 is 4.2. ceil() rounds up to 5.
+    console.log('Boxes needed:', boxesNeeded); // Output: 5
+
+    // Example: Generate a random dice roll (1-6)
+    const diceRoll = Math.floor(Math.random() * 6) + 1;
+    console.log('You rolled a:', diceRoll);
+    ```
+
+## Practice Exercise: User Profile and Invoice Formatting
+
+### Task
+You need to process user data and format it for display.
+
+1.  A user signs up with the name `  alex green  ` (with extra spaces). Create a variable for this.
+2.  Clean up the name: remove leading/trailing spaces (`.trim()`) and format it to be "Alex Green" (capitalize first letters). *Hint: Slice the first letter, uppercase it, and concatenate it with the rest of the name.*
+3.  You have a total bill of `120.345`. Store this in a variable. Format this for an invoice to always show two decimal places.
+4.  You need to generate a 4-digit random PIN for account verification. Use `Math.random()` and `Math.floor()` to generate a random number between 1000 and 9999.
+5.  Log the cleaned name, the formatted invoice total, and the random PIN.
+
+### Solution
+
+```javascript
+// 1. User's raw input
+const rawUserName = '  alex green  ';
+
+// 2. Clean and format the name
+const trimmedName = rawUserName.trim(); // "alex green"
+const firstName = trimmedName.slice(0, 4); // "alex"
+const lastName = trimmedName.slice(5);     // "green"
+
+const formattedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1); // "Alex"
+const formattedLastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);   // "Green"
+const finalName = `${formattedFirstName} ${formattedLastName}`;
+
+// 3. Format the bill
+const totalBill = 120.345;
+const formattedBill = totalBill.toFixed(2);
+
+// 4. Generate a 4-digit PIN
+// Math.random() gives 0 to 0.999...
+// * 9000 gives 0 to 8999.999...
+// + 1000 gives 1000 to 9999.999...
+// Math.floor() drops the decimal.
+const randomPin = Math.floor(Math.random() * 9000) + 1000;
+
+// 5. Log the results
+console.log('Formatted User Name:', finalName); // Expected: "Alex Green"
+console.log('Invoice Total: $' + formattedBill);  // Expected: "$120.35"
+console.log('Generated Security PIN:', randomPin); // Expected: A random number between 1000 and 9999

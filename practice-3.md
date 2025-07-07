@@ -250,3 +250,145 @@ const products = [
 
 // 1. Traditional for loop - when you need index
 console.log("=== Traditional For Loop ===
+
+
+---
+
+### **File 1.3: Tricky Primitives & Type Coercion**
+
+```markdown
+# Exercise 1.3: Tricky Primitives & Type Coercion
+
+**Objective:** Understand the important differences between `null` and `undefined`, and grasp the concept of Type Coercion, a common source of bugs and a favorite topic in technical interviews.
+
+## Part 1: `undefined` vs. `null`
+
+These two types represent "emptiness" but have different semantic meanings.
+
+### `undefined`
+A variable has the type `undefined` when it has been **declared but not yet assigned a value**. It's JavaScript's way of saying "I know this variable exists, but it has no value."
+
+*   **Example 1: Implicitly `undefined`**
+    A variable is automatically `undefined` until you assign something to it.
+
+    ```javascript
+    let userShippingAddress;
+    console.log(userShippingAddress); // Output: undefined
+    console.log(typeof userShippingAddress); // Output: "undefined"
+    ```
+
+*   **Example 2: Function with no return**
+    A function that doesn't explicitly `return` a value will implicitly return `undefined`.
+
+    ```javascript
+    function logMessage(message) {
+      console.log(message);
+      // No return statement here
+    }
+    const result = logMessage('Hello!'); // Logs "Hello!" to the console
+    console.log('The function returned:', result); // Output: The function returned: undefined
+    ```
+
+### `null`
+`null` is an **intentional assignment of "no value"**. As a programmer, you use `null` to explicitly state that a variable is empty.
+
+*   **Example 1: Clearing a Selection**
+    Imagine a user can select a product from a list. When they deselect it, you can set the variable to `null`.
+
+    ```javascript
+    let selectedProduct = 'T-Shirt Model X';
+    console.log('Selected product is:', selectedProduct); // Output: T-Shirt Model X
+
+    // User clicks a "clear selection" button
+    selectedProduct = null;
+    console.log('Selected product is now:', selectedProduct); // Output: null
+    ```
+*   **Interview Tip:** The `typeof null` is `'object'`. This is a famous, long-standing bug in JavaScript that can't be fixed due to backward compatibility. Be ready to explain this!
+
+    ```javascript
+    console.log(typeof null); // Output: "object" (This is the historical bug!)
+    ```
+
+## Part 2: Type Coercion (Implicit Conversion)
+
+JavaScript often tries to be "helpful" by automatically converting data types when you use operators. This is called **Type Coercion**. It can be useful but also very dangerous.
+
+### Coercion to String
+When you use the `+` operator with a string, any other operand will be converted to a string.
+
+```javascript
+// Example 1: Number to String
+const result1 = 'My favorite number is ' + 7;
+console.log(result1); // Output: "My favorite number is 7"
+console.log(typeof result1); // "string"
+
+// Example 2: The classic trap
+const result2 = '5' + 3; // '+' with a string means concatenation
+console.log(result2); // Output: "53"
+console.log(typeof result2); // "string"
+
+## Coercion to Number
+
+> Most other math operators (-, *, /, %) will try to convert operands to numbers.
+
+```
+// Example 1: The 'helpful' case
+const result3 = '10' - '2'; // '-' coerces both strings to numbers
+console.log(result3); // Output: 8
+console.log(typeof result3); // "number"
+
+// Example 2: What happens with non-numeric strings?
+const result4 = 'hello' * 3;
+console.log(result4); // Output: NaN (Not-a-Number)
+console.log(typeof result4); // "number" - Yes, NaN is technically of type number!
+```
+
+> Best Practice: Always be explicit. Don't rely on coercion. If you need to add numbers, make sure they are both numbers first using parseInt() or Number(). Number('5') + 3 gives 8.
+
+
+# Practice Exercise: A Simple Shopping Cart Calculator
+## Task
+
+> You're building a feature where a user can input a quantity into a form field on a webpage. Form inputs are always read as strings. Your task is to perform calculations correctly, avoiding coercion pitfalls.
+
+- A variable inputQuantity is received from a form. It has the string value '2'.
+- A variable priceString is received from another part of the UI. It has the value '25.50'.
+- A shippingCost variable is a number, 9.99.
+- The Wrong Way: Add priceString and shippingCost using the + operator. Log the result and its type to see the coercion bug in action.
+- The Right Way: Convert inputQuantity and priceString to numbers.
+- Calculate the subtotal by multiplying the numeric quantity and numeric price.
+- Calculate the grandTotal by adding the subtotal and the shippingCost.
+- Log the final grandTotal.
+
+## Solution
+
+```
+// 1. & 2. & 3. Initial variables from the UI
+const inputQuantity = '2';
+const priceString = '25.50';
+const shippingCost = 9.99;
+
+// 4. The Wrong Way (demonstrating the bug)
+const wrongTotal = priceString + shippingCost;
+console.log('--- The Wrong Way ---');
+console.log('Result of string + number:', wrongTotal); // Expected: "25.509.99"
+console.log('Type of wrongTotal:', typeof wrongTotal); // Expected: "string"
+console.log('-----------------------');
+
+// 5. The Right Way (explicit conversion)
+const numericQuantity = parseInt(inputQuantity); // Or Number(inputQuantity)
+const numericPrice = parseFloat(priceString);   // Or Number(priceString)
+
+// 6. Calculate subtotal
+const subtotal = numericQuantity * numericPrice;
+
+// 7. Calculate grand total
+const grandTotal = subtotal + shippingCost;
+
+// 8. Log the final, correct result
+console.log('--- The Right Way ---');
+console.log('Numeric Quantity:', numericQuantity);
+console.log('Numeric Price:', numericPrice);
+console.log('Subtotal:', subtotal.toFixed(2));
+console.log('Grand Total:', grandTotal.toFixed(2)); // Expected: 60.99
+```
